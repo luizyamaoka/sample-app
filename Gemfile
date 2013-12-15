@@ -2,9 +2,11 @@ source 'https://rubygems.org'
 
 gem 'rails', '4.0.2'
 gem 'bootstrap-sass', '2.0.0'
+gem 'bcrypt-ruby', '3.1.2'
 
 group :development do
   gem 'rspec-rails', '2.14.0'
+  gem 'annotate', '2.6.0'
 end
 
 group :assets do
@@ -23,3 +25,4 @@ gem 'pg', '0.17.0'
 
 gem 'turbolinks', '2.0.0'
 
+gem 'protected_attributes', '1.0.5'
