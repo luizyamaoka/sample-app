@@ -22,7 +22,7 @@ development:
   username: pguser
   password: pgpassword
 
-test:
+test: &test
   adapter: postgresql
   encoding: unicode
   database: sample_app_development
@@ -37,3 +37,6 @@ production:
   pool: 5
   username: pguser
   password: pgpassword
+
+cucumber:
+  <<: *test
