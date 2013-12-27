@@ -153,7 +153,7 @@ PLATFORMS
 DEPENDENCIES
   annotate (= 2.6.0)
   bcrypt-ruby (= 3.1.2)
-  bootstrap-sass (= 2.2.2)
+  bootstrap-sass
   capybara (= 2.2.0)
   coffee-rails (~> 4.0.0)
   cucumber-rails (= 1.4.0)
