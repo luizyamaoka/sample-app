@@ -32,6 +32,10 @@ describe "AuthenticationPages" do
 
 			describe "followed by signout" do
 				before { click_link "Sign out" }
+				it{ should_not have_link('Users', href: users_path) }
+				it{ should_not have_link('Profile', href: user_path(user)) }
+				it{ should_not have_link('Settings', href: edit_user_path(user)) }
+				it{ should_not have_link('Sign out', href: signout_path) }
 				it { should have_link('Sign in', href: signin_path) }
 			end
 
@@ -65,6 +69,19 @@ describe "AuthenticationPages" do
 				describe "after signing in" do
 					it "should render the desired protected page" do
 						page.should have_selector('h1', text: "Update your profile")
+					end
+
+					describe "when signing in again" do
+						before do
+							visit signin_path
+							fill_in "Email", with: user.email
+							fill_in "Password", with: user.password
+							click_button "Sign in"
+						end
+
+						it "should render the default (profile) page" do
+							page.should have_selector('h1', text: user.name)
+						end
 					end
 				end
 			end
@@ -105,6 +122,24 @@ describe "AuthenticationPages" do
 				before { delete user_path(user) }
 				specify { response.should redirect_to(root_path) }
 			end
+		end
+
+		describe "as admin user" do
+			let(:admin) { FactoryGirl.create(:admin) }
+
+			before { valid_signin admin }
+
+			#describe "deleting himself" do
+			#	before { delete user_path(admin) }
+			#	specify {
+			#		response.should redirect_to(root_path),
+			#		flash[:error].should = 'Admin cannot destroy himself'
+			#	}
+			#end
+
+			it "should not destroy himself" do
+				expect { delete user_path(admin) }.to change(User, :count).by(0)
+			end				
 		end
 
 	end
