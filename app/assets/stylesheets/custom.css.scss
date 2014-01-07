@@ -138,6 +138,11 @@ aside {
 			margin-bottom: 3px;
 		}
 	}
+
+	textarea {
+		height: 100px;
+		margin-bottom: 5px;
+	}
 }
 
 .gravatar {
@@ -200,16 +205,4 @@ input, textarea, select, .uneditable-input {
 
 .timestamp {
 	color: $grayLight;
-}
-
-.gravatar {
-	float: left;
-	margin-right: 10px;
-}
-
-aside {
-	textarea {
-		height: 100px;
-		margin-bottom: 5px;
-	}
 }
