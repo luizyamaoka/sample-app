@@ -13,16 +13,47 @@ describe "Static pages" do
 			let(:user) { FactoryGirl.create(:user) }
 			before do
 				FactoryGirl.create(:micropost, user: user, content: "Lorem ipsum")
-				FactoryGirl.create(:micropost, user: user, content: "Dolor sit amet")
 				valid_signin user
 				visit root_path
 			end
 
-			it "should render the user's feed" do
-				user.feed.each do |item|
-					page.should have_selector("li##{item.id}", text:item.content)
+			# count microposts correctly and use the single word micropost
+			it { should have_content("1 micropost") }
+
+			describe "with two microposts" do
+
+				before do
+					FactoryGirl.create(:micropost, user: user, content: "Dolor sit amet")
+					visit root_path
+				end
+
+				# count microposts correctly and use the plural word microposts
+				it { should have_content("2 microposts") }
+
+				it "should render the user's feed" do
+					user.feed.each do |item|
+						page.should have_selector("li##{item.id}", text:item.content)
+					end
 				end
 			end
+
+			# test pagination
+			describe "pagination" do
+
+				before do
+					50.times { FactoryGirl.create(:micropost, user: user, content: "Lorem ipsum") } 
+					visit root_path
+				end
+
+				it { should have_selector('div.pagination') }
+
+				it "should list each user" do
+					user.microposts.paginate(page: 1).each do |micropost|
+						page.should have_selector('li', text: micropost.content)
+					end
+				end
+			end
+
 		end
 	end
 

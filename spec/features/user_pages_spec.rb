@@ -100,6 +100,7 @@ require 'spec_helper'
 			let(:user) { FactoryGirl.create(:user) }
 
 			before(:each) do
+				50.times { FactoryGirl.create(:user) }
 				valid_signin user
 				visit users_path
 			end
